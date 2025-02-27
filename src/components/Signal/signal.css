@@ -1,0 +1,16 @@
+.typing-container {
+  display: flex;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.cursor {
+  opacity: 1;
+  animation: blink 0.6s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

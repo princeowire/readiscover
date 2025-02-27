@@ -1,0 +1,95 @@
+.cards_lai {
+    margin-top: -20px;
+    width: 100%;
+}
+
+#select_lai {
+    width: 10rem;
+    outline: none;
+    border-radius: 05px;
+    padding: 10px;
+    border: 2px solid #AA60C8;
+}
+
+.first-row_lai, .second-row_lai {
+    justify-content: space-between;
+    display: flex;
+    gap: 50px;
+    overflow: scroll;
+    height: fit-content;
+}
+
+.second-row_lai::-webkit-scrollbar {
+  display: none;
+}
+
+.first-row_lai::-webkit-scrollbar {
+  display: none;
+}
+
+.first-row_lai {
+    margin: 20px 0 80px 0;
+    padding: 10px;
+}
+
+.second-row_lai {
+    margin-top: 10px;
+    padding: 10px 0;
+}
+
+.card_lai {
+    justify-content: space-between;
+    display: flex;
+    max-width: 400px;
+}
+
+.book-img_lai {
+    margin: 0px;
+    width: 250px;
+}
+
+.book-img_lai img {
+    width: 100%;
+    height: 100%;
+}
+
+.book-text_lai {
+    margin-left: 15px;
+    gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+ }
+
+.price_lai {
+    font-weight: bold;
+}
+
+.span_lai {
+    text-decoration: line-through;
+    margin-left: 15px;
+    font-weight: normal !important;
+}
+
+.button_lai {
+    display: block;
+    padding: 5px 10px;
+    background-color: #AA60C8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 8rem;
+    height: 2rem;
+    margin-top: 23px;
+}
+
+.button_lai:hover {
+    background-color: #c971ec;
+    cursor: pointer;
+    transition: .5s;
+}
+
+
+
+
+

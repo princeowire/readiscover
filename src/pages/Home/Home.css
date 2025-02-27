@@ -1,0 +1,97 @@
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  padding: 90px 50px 0 50px;
+  position: relative;
+  width: 100%;
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hero-img {
+  object-fit: cover;
+  width: 50%;
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.hero-text h3 {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.hero-text p {
+  max-width: 700px;
+  font-size: 1.2rem;
+}
+
+.hero-text button {
+  padding: 10px 20px;
+  width: 170px;
+  background-color: #AA60C8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: larger;
+}
+
+.books {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px 50px ;
+
+  h3 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    gap: 20px;
+    padding: 100px 20px 0 20px;
+  }
+
+  .hero-text {
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-img {
+    width: 100%;
+  }
+
+  .books {
+    padding: 20px;
+    h3 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .hero-text h3 {
+    font-size: 1.5rem;
+  }
+  
+}
+
+@media only screen and (max-width: 1150px) {
+  .hero-text p {
+    max-width: 500px;
+    font-size: medium;
+  }
+}

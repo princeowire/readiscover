@@ -1,0 +1,61 @@
+nav {
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  padding: 1rem 2rem;
+  background-color: #f2f7fd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100vw;
+}
+
+nav a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.wish {
+  padding-right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.fst-nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.aux-logo {
+  display: none;
+}
+
+.libary-icon {
+  width: 30px;
+}
+
+@media only screen and (max-width: 846px) {
+  nav {
+    padding: 1rem;
+    justify-content: space-between;
+  }
+
+  .wish {
+    padding: 0;
+  }
+
+  .fst-nav-wrapper {
+    gap: 1.5rem;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .aux-logo {
+    display: block;
+  }
+}

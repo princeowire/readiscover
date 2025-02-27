@@ -1,0 +1,52 @@
+.search-container {
+  position: relative;
+  width: 400px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 5px;
+  background: white;
+}
+
+.search img {
+  width: 20px;
+  margin-right: 8px;
+}
+
+.search input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.suggestions {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background: #f0f0f0;
+}
+
+@media only screen and (max-width: 846px) {
+  .search-container {
+   width: inherit;
+  }
+}

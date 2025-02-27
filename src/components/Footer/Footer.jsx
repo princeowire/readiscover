@@ -1,7 +1,7 @@
 import React from 'react';
 import './Footer.css';
 import Signal from '../Signal/Signal';
-import ig from '../../assets/instagram.png';
+import ig from '../../assets/Instagram.png';
 import google from '../../assets/Google.png';
 import fb from '../../assets/Facebook.png';
 

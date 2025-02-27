@@ -50,6 +50,7 @@ const Books = () => {
           <p className="no-book">No books available.</p>
         )}
       </div>
+      <div></div>
     </div>
   );
 };

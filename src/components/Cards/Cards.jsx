@@ -1,5 +1,5 @@
 import React from "react";
-import "./Cards.css";
+import "./cards.css";
 import productPhoto from "../../assets/productPhoto.png";
 import productPhoto1 from "../../assets/productPhoto1.png";
 import productPhoto2 from "../../assets/productPhoto2.png";

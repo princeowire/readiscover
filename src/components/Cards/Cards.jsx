@@ -49,7 +49,7 @@ const Cards = () => {
           </div>
 
           <div className="book-text_lai">
-            <h4>I Want a Better Catastrophe...</h4>
+            <h4>My government means to kill me</h4>
             <p>With global wrming projected to rocket past the...</p>
             <button className="button_lai">Read Now </button>
           </div>
@@ -90,7 +90,7 @@ const Cards = () => {
           </div>
 
           <div className="book-text_lai">
-            <h4>I Want a Better Catastrophe...</h4>
+            <h4>The Midnight Library</h4>
             <p>With global wrming projected to rocket past the...</p>
             <button className="button_lai">Read Now </button>
           </div>

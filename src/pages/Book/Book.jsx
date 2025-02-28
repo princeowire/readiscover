@@ -32,35 +32,6 @@ const Books = () => {
     alert(`Opening book ID: ${bookId}`); // Replace with navigation logic
   };
 
-  const displayAllIndexes = () => {
-    return (
-      <div>
-        {!loading && (
-          <div>
-            {Object.entries(books).map(([key, value], index) => {
-              console.log(value)
-              return (
-                <div key={index}>
-                  <h2>{key}</h2>
-                  <div>
-                    {value.map(({title, text}) => {
-                      return (
-                        <article key={title}>
-                          <p>{title}</p>
-                          <p>{text}</p>
-                        </article>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <div className="books-container">
       <div className="book-head">
@@ -70,27 +41,40 @@ const Books = () => {
         </a>
       </div>
 
-      {loading && <p className="loading">Loading books...</p>}
-      {error && <p className="error">{error}</p>}
+      {/* Loading State */}
+      {loading && <p className="loading-text">Loading books...</p>}
 
-      {displayAllIndexes()}
-      <div className="books-list">
-        {!loading && books.length > 0
-          ? books.map((book) => (
-              <div key={book.id} className="book-card">
-                <img
-                  src={book.coverUrl}
-                  alt={book.title}
-                  className="book-cover"
-                />
-                <h3>{book.title}</h3>
-                <p>{book.author}</p>
-                <button onClick={() => handleRead(book.id)}>Read</button>
+      {/* Error State */}
+      {error && <p className="error-text">{error}</p>}
+
+      {/* No Books Found */}
+      {!loading && !error && Object.keys(books).length === 0 && (
+        <p className="no-books-text">No books found.</p>
+      )}
+
+      {/* Books List */}
+      {!loading && !error && (
+        <div className="books-list">
+          {Object.entries(books).map(([key, value], index) => (
+            <div key={index} className="book-category">
+              <h2>{key}</h2>
+              <div className="book-items">
+                {value.map(({ title, text }, bookIndex) => (
+                  <article key={bookIndex} className="book-card">
+                    <h3>{title}</h3>
+                    <p className="book-description">
+                      {text.length > 100 ? `${text.substring(0, 100)}...` : text}
+                    </p>
+                    <button onClick={() => handleRead(title)} className="read-more-btn">
+                      Read More
+                    </button>
+                  </article>
+                ))}
               </div>
-            ))
-          : !loading &&
-            !error && <p className="no-book">No books available.</p>}
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-.suggestions {
+.search-results {
   position: absolute;
   width: 100%;
   background: white;
@@ -45,8 +45,8 @@
   background: #f0f0f0;
 }
 
-@media only screen and (max-width: 846px) {
+@media only screen and (max-width: 768px) {
   .search-container {
-   width: inherit;
+   width: initial;
   }
 }

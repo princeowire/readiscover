@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import searchIcon from "../../assets/Search-Icon.png";
 import "./search.css";
@@ -7,24 +7,30 @@ const Search = () => {
   const [query, setQuery] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [noResults, setNoResults] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1); // Track selected item
+  const [noResults, setNoResults] = useState(false); // Track empty results
   const searchRef = useRef(null);
-  const debounceTimeout = useRef(null);
 
-  // Fetch books with debouncing
-  const fetchBooks = useCallback(async (searchTerm) => {
+  // Fetch books from backend using Axios (POST request)
+  const fetchBooks = async (searchTerm) => {
     if (!searchTerm.trim()) {
       setFilteredBooks([]);
       setNoResults(false);
       return;
     }
 
+    const terms = searchTerm.split(" ");
     setLoading(true);
+
     try {
-      const response = await axios.post(`https://readiscover.onrender.com/api/v1/search`, {
-        terms: searchTerm.split(" "),
-      });
+      const response = await axios.post(
+        `https://readiscover.onrender.com/api/v1/search`,
+        {
+          // filename: "books.json", // Replace with the actual filename
+          terms,
+        }
+      );
+
+      console.log("API Response:", response.data); // Debugging log
 
       if (Array.isArray(response.data.msg) && response.data.msg.length > 0) {
         setFilteredBooks(response.data.msg);
@@ -40,39 +46,28 @@ const Search = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  // Debounce input changes
-  useEffect(() => {
-    if (query.trim()) {
-      clearTimeout(debounceTimeout.current);
-      debounceTimeout.current = setTimeout(() => {
-        fetchBooks(query);
-      }, 500);
-    } else {
-      setFilteredBooks([]);
-      setNoResults(false);
-    }
-    return () => clearTimeout(debounceTimeout.current);
-  }, [query, fetchBooks]);
-
-  // Handle keyboard navigation
+  // Handle the "Enter" key press
   const handleKeyDown = (e) => {
-    if (e.key === "ArrowDown") {
-      setSelectedIndex((prev) => Math.min(prev + 1, filteredBooks.length - 1));
-    } else if (e.key === "ArrowUp") {
-      setSelectedIndex((prev) => Math.max(prev - 1, 0));
-    } else if (e.key === "Enter") {
-      if (selectedIndex >= 0 && filteredBooks[selectedIndex]) {
-        setQuery(filteredBooks[selectedIndex]);
-        setFilteredBooks([]);
-      } else {
-        fetchBooks(query);
-      }
+    if (e.key === "Enter") {
+      fetchBooks(query);
     }
   };
 
-  // Handle clicking outside to close dropdown
+  // Handle input change
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+    setFilteredBooks([]); // Clear suggestions when typing
+    setNoResults(false); // Reset no results state
+  };
+
+  // Handle button click to submit search
+  const handleSearchButtonClick = () => {
+    fetchBooks(query);
+  };
+
+  // Click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -80,6 +75,7 @@ const Search = () => {
         setNoResults(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -87,36 +83,35 @@ const Search = () => {
   return (
     <div className="search-container" ref={searchRef}>
       <div className="search">
-        <img src={searchIcon} onClick={() => fetchBooks(query)} alt="Search" />
+        <img src={searchIcon} onClick={handleSearchButtonClick} alt="Search" />
         <input
           type="text"
           placeholder="What are you looking for?"
           value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setSelectedIndex(-1); // Reset selection on new input
-          }}
-          onKeyDown={handleKeyDown}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown} // Trigger fetch on Enter
         />
       </div>
-      {loading && <p className="loading-text">Loading...</p>}
-      {!loading && noResults && <p className="no-results">Book not found</p>}
-      {filteredBooks.length > 0 && !loading && (
-        <ul className="suggestions">
-          {filteredBooks.map((book, index) => (
-            <li
-              key={index}
-              className={index === selectedIndex ? "selected" : ""}
-              onClick={() => {
-                setQuery(book);
-                setFilteredBooks([]);
-              }}
-            >
-              {book}
-            </li>
-          ))}
-        </ul>
-      )}
+
+      <div className="search-results">
+        {loading && <p className="loading-text">Loading...</p>}
+        {!loading && noResults && <p className="no-results">Book not found</p>}
+        {filteredBooks.length > 0 && !loading && (
+          <ul className="suggestions">
+            {filteredBooks.map((book, index) => (
+              <li
+                key={index}
+                onClick={() => {
+                  setQuery(book);
+                  setFilteredBooks([]);
+                }}
+              >
+                {book}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

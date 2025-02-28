@@ -1,7 +1,7 @@
 import React from 'react';
 import './Footer.css';
 import Signal from '../Signal/Signal';
-import ig from '../../assets/instagram.png';
+import ig from '../../assets/Instagram.png';
 import google from '../../assets/Google.png';
 import fb from '../../assets/Facebook.png';
 
@@ -32,7 +32,7 @@ const Footer = () => {
 
       <div className="ft-two">
         <div className='ft-snd-links'>
-          <a href="">Privacy Policy</a>
+          <a href="" className="not-needed">Privacy Policy</a>
           <a href="">Terms of Use</a>
           <a href="">Sales and Refunds</a>
           <a href="">Legal</a>

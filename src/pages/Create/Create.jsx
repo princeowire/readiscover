@@ -12,48 +12,102 @@ const CreateBook = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Handles manual input changes
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // Handles JSON file upload
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+  
+    if (!file) return;
+  
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const jsonData = JSON.parse(event.target.result);
+  
+        // If it's an array of books, take only the first one
+        const book = Array.isArray(jsonData) ? jsonData[0] : jsonData;
+  
+        if (!book.title || !book.text) {
+          setError("Invalid JSON format! Each book must include 'title' and 'text'.");
+          return;
+        }
+  
+        setFormData({
+          filename: file.name,
+          title: book.title,
+          text: book.text,
+        });
+  
+        setError(""); // Clear error if successful
+      } catch (err) {
+        setError("Invalid JSON file!");
+      }
+    };
+  
+    reader.readAsText(file);
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    if (!formData.title || !formData.text || !formData.filename) {
-      setError("Title and text are required!");
+  
+    if (!formData.filename) {
+      setError("Please upload a JSON file!");
       return;
     }
-
+  
     setLoading(true);
-
-    const fileContent = [{ title: formData.title, text: formData.text }];
-    const payload = {
-      filename: formData.filename, // File name
-      fileContent, // Array of books
-    };
-
+  
+    const fileInput = document.getElementById("file-upload"); // Get file input element
+    const file = fileInput.files[0]; // Get the actual file
+  
+    if (!file) {
+      setError("No file selected!");
+      setLoading(false);
+      return;
+    }
+  
+    const formDataToSend = new FormData();
+    formDataToSend.append("file", file); // Append file as "file"
+  
     try {
       const { data } = await axios.post(
         "https://readiscover.onrender.com/api/v1/create",
-        payload
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" }, // Ensure correct content type
+        }
       );
-      // do what ever you want with the data
-      setFormData({ filename: "", title: "", text: "" });
+  
+      console.log("Response:", data);
+      alert("Book created successfully!"); // ✅ Show success alert
+      setFormData({ filename: "", title: "", text: "" }); // Clear form
     } catch (error) {
       console.error("Error creating book:", error);
-      setError();
-      // alert("Something went wrong!");
+      setError(error.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
   };
+  
+  
+  
 
   return (
     <div className="create-book-container">
       <h2>Create a New Book</h2>
       {error && <p className="error-message">{error}</p>}
+
       <form onSubmit={handleSubmit} className="create-book-form">
+        <label>Upload JSON File:</label>
+        <input id="file-upload" type="file" accept=".json" onChange={handleFileUpload} />
+
+
         <label>Filename:</label>
         <input
           type="text"
@@ -84,19 +138,6 @@ const CreateBook = () => {
           {loading ? "Creating..." : "Create Book"}
         </button>
       </form>
-
-      {/* {books.length > 0 && (
-        <div className="book-list">
-          <h3>Book List</h3>
-          <ul>
-            {books.map((b, index) => (
-              <li key={index}>
-                <strong>{b.title}</strong>: {b.text} (Index: {index})
-              </li>
-            ))}
-          </ul>
-        </div>
-      )} */}
     </div>
   );
 };

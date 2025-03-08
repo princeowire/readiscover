@@ -79,11 +79,19 @@
   cursor: not-allowed;
 }
 
-.error-message {
-  color: red;
-  background: #ffe5e5;
+.display-message {
   padding: 8px;
   border-radius: 5px;
   margin-bottom: 10px;
   text-align: center;
+}
+
+.error {
+  color: red;
+  background: #ffe5e5;
+}
+
+.success {
+  color: green;
+  background: rgb(215, 239, 215);
 }

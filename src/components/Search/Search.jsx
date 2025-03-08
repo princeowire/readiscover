@@ -13,33 +13,24 @@ const Search = () => {
 
   // Fetch books from API without file upload
   const fetchBooks = async (searchTerm) => {
-    if (!searchTerm.trim()) {
-      setFilteredBooks([]);
-      setNoResults(false);
-      setError("");
-      return;
-    }
-
+    const terms = searchTerm.split(" ");
 
     setLoading(true);
     setError("");
 
     try {
-      const response = await axios.post(
+      const {
+        data: {
+          data: { result },
+        },
+      } = await axios.post(
         `https://readiscover.onrender.com/api/v1/search`,
-        { terms: searchTerm }, // Send search term in the body
+        { terms }, // Send search term in the body
         { headers: { "Content-Type": "application/json" } }
       );
+      console.log(result); // it is working now please only work with the return data
 
-      console.log("API Response:", response.data);
-
-      if (response.data && response.data.results) {
-        setFilteredBooks(response.data.results);
-        setNoResults(response.data.results.length === 0);
-      } else {
-        setFilteredBooks([]);
-        setNoResults(true);
-      }
+      setFilteredBooks(result);
     } catch (error) {
       console.error("Error fetching books:", error);
       setError("Failed to fetch books. Please try again.");
